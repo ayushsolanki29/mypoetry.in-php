@@ -1,0 +1,159 @@
+<?php
+if (isset($_COOKIE['rememberme'])) {
+    $token = mysqli_real_escape_string($con, $_COOKIE['rememberme']);
+    $query = "SELECT * FROM rememberme_tokens WHERE token = '$token' AND expiration > NOW()";
+    $result = mysqli_query($con, $query);
+
+    if ($result && mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+        $user_id = $row['user_id'];
+        $user_id = mysqli_real_escape_string($con, $user_id);
+        $_SESSION['user_id'] = $user_id;
+    } else {
+        setcookie("rememberme", "", time() - 3600, "/"); // Clear cookie
+    }
+}
+?>
+<header class="header_section">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg custom_nav-container ">
+      <a class="navbar-brand" href="index.php">
+        <span>
+          <span style="color:#ffbe33;">MYPOETRY</span>.IN
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class=""> </span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item <?php if(basename($_SERVER['PHP_SELF']) == 'index.php') echo 'active'; ?>">
+            <a class="nav-link" href="index.php">Home</a>
+          </li>
+          <li
+            class="nav-item <?php if(basename($_SERVER['PHP_SELF']) == 'poetry-categories.php' || basename($_SERVER['PHP_SELF']) == 'poetry-details.php') echo 'active'; ?>">
+            <a class="nav-link" href="poetry-categories.php">Categories</a>
+          </li>
+          <li class="nav-item <?php if(basename($_SERVER['PHP_SELF']) == 'purchase-poetry.php') echo 'active'; ?>">
+            <a class="nav-link" href="purchase-poetry.php">Purchase</a>
+          </li>
+          <li class="nav-item <?php if(basename($_SERVER['PHP_SELF']) == 'about.php') echo 'active'; ?>">
+            <a class="nav-link" href="about.php">About</a>
+          </li>
+          <?php if (!isset($_SESSION['user_id'])){
+            ?>
+          <li class="nav-item <?php if(basename($_SERVER['PHP_SELF']) == 'register.php') echo 'active'; ?>">
+            <a class="nav-link" href="register.php">Register</a>
+          </li>
+          <?php } else { ?>
+          <li class="nav-item <?php if(basename($_SERVER['PHP_SELF']) == 'user-profile.php') echo 'active'; ?>">
+            <a class="nav-link" href="user-profile.php">Profile</a>
+          </li>
+          <?php } ?>
+        </ul>
+        <div class="user_option">
+          <a href="user-profile.php" class="user_link">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </a>
+          <a class="user_link" href="my-poetry-cart.php">
+            <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+          </a>
+          <form class="form-inline" id="searchForm">
+            <div class="btn my-2 my-sm-0 nav_search-btn">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <i class="fa-solid fa-times" aria-hidden="true"></i>
+                <div class="search-dropdown">
+                  <input type="search" class="search-input" id="searchInput" placeholder="Search..." autocomplete="off">
+                    <div class="dropdown-menu" id="searchDropdown" aria-labelledby="searchInput">
+                        
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+          $(document).ready(function(){
+              $('#searchInput').on('input', function(){
+                  var query = $(this).val();
+                  if(query !== ''){
+                      $.ajax({
+                          url: 'suggestions.php', 
+                          method: 'POST',
+                          data: {query: query},
+                          success: function(response){
+                              $('#searchDropdown').html(response);
+                              $('#searchDropdown').addClass('show');
+                          }
+                      });
+                  } else {
+                      $('#searchDropdown').html('');
+                      $('#searchDropdown').removeClass('show');
+                  }
+              });
+          });
+          </script>
+
+          <script>
+            document.getElementById("searchForm").addEventListener("submit", function (event) {
+              event.preventDefault();
+              var searchInput = document.getElementById("searchInput").value;
+              var category = encodeURIComponent(searchInput);
+              window.location.href = "poetry-details.php?category=" + category;
+
+            });
+          </script>
+
+
+          <?php if (isset($_SESSION['user_id'])){
+                ?>
+          <a href="logout.php" style="cursor: pointer; color: #fff;" class="order_online">
+            Logout
+          </a>
+          <?php
+            }else{
+                ?>
+          <a href="login.php" style="cursor: pointer; color: #fff;" class="order_online">
+            Login
+          </a>
+          <?php
+            }
+            ?>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchBtn = document.querySelector(".nav_search-btn");
+    const searchInput = document.querySelector(".search-input");
+    const searchIcon = searchBtn.querySelector(".fa-magnifying-glass");
+    const closeIcon = searchBtn.querySelector(".fa-times");
+
+    searchIcon.addEventListener("click", function () {
+      searchBtn.classList.add("show");
+      searchBtn.classList.add("active");
+      searchIcon.style.display = "none";
+      closeIcon.style.display = "inline-block";
+      searchInput.focus();
+    });
+
+    closeIcon.addEventListener("click", function () {
+      searchBtn.classList.remove("show");
+      searchBtn.classList.remove("active");
+      closeIcon.style.display = "none";
+      searchIcon.style.display = "inline-block";
+      searchInput.blur();
+    });
+  });
+
+
+</script>

@@ -1,0 +1,3 @@
+[05-Dec-2023 17:43:53 UTC] PHP Warning:  move_uploaded_file(source/Profile/Dream creation.jpg): failed to open stream: No such file or directory in /home/mypoetry/public_html/profile-update.php on line 65
+[05-Dec-2023 17:43:53 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpqWvS3V' to 'source/Profile/Dream creation.jpg' in /home/mypoetry/public_html/profile-update.php on line 65
+[11-Dec-2023 22:09:27 UTC] PHP Warning:  mysqli_connect(): (08004/1040): Too many connections in /home/mypoetry/public_html/auth/config.php on line 14

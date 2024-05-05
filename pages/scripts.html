@@ -1,0 +1,67 @@
+  <script>// Insert the loader HTML into the end of the body
+    document.querySelector("body").insertAdjacentHTML(
+        "beforeend",
+        `
+        <div class="loader">
+          <div class="pinwheel">
+            <div class="pinwheel__line"></div>
+            <div class="pinwheel__line"></div>
+            <div class="pinwheel__line"></div>
+            <div class="pinwheel__line"></div>
+            <div class="pinwheel__line"></div>
+            <div class="pinwheel__line"></div>
+          </div>
+        </div>
+        `
+      );
+      
+      // Remove the loader when the window is fully loaded
+      window.addEventListener("load", function () {
+        const loader = document.querySelector(".loader");
+        if (loader) {
+          loader.remove();
+        }
+      });
+      </script>
+  <!-- jQery -->
+  <script src="scripts/jquery-3.4.1.min.js" ></script>
+
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous" ></script>
+
+  <!-- bootstrap js -->
+  <script src="scripts/bootstrap.js" ></script>
+
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+  <!-- isotope js -->
+  <!-- <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js" defer></script> -->
+
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+
+  <script src="https://kit.fontawesome.com/3a634ddbe6.js" crossorigin="anonymous" ></script>
+  <!-- custom js -->
+  <script src="scripts/custom.js" > </script>
+
+  <!-- Font Awesome -->
+
+  <!-- go to top -->
+  <script>
+    const homesection = document.querySelector(".hero_area");
+    const scrollelm = document.querySelector(".scrolltotop-style");
+     window.onscroll = function () {
+      scrollelm.style.display = (window.scrollY > 20) ? "block" : "none";
+    };
+    const scrolltop = () =>{
+      homesection.scrollIntoView({behavior:"smooth"});
+    };
+    scrollelm.addEventListener("click",scrolltop);
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8822076362543808"
+     crossorigin="anonymous"></script>
+     
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8822076362543808"
+     crossorigin="anonymous"></script>
